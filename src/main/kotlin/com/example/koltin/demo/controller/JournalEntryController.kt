@@ -1,5 +1,8 @@
-package com.example.koltin.demo.api2
+package com.example.koltin.demo.controller
 
+import com.example.koltin.demo.model.JournalEntry
+import com.example.koltin.demo.service.JournalEntryService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -15,6 +18,9 @@ class JournalEntryController {
 
     private val journalEntries = HashMap<Long, JournalEntry>()
 
+    @Autowired
+    lateinit var journalEntryService: JournalEntryService
+
 
     @GetMapping
     public fun getAll(): List<JournalEntry> {
@@ -23,7 +29,7 @@ class JournalEntryController {
 
     @PostMapping
     public fun createEntry(@RequestBody entry: JournalEntry): Boolean {
-        journalEntries.put(entry.id, entry)
+        journalEntryService.saveEntry(entry)
         return true
     }
 
