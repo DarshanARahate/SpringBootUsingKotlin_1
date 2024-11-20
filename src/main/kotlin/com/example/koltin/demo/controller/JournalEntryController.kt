@@ -24,7 +24,7 @@ class JournalEntryController {
 
     @GetMapping
     public fun getAll(): List<JournalEntry> {
-        return journalEntries.values.toList()
+        return journalEntryService.getAllEntries()
     }
 
     @PostMapping
@@ -35,12 +35,13 @@ class JournalEntryController {
 
     @GetMapping("id/{myId}")
     public fun getJournalEntryById(@PathVariable myId: Long): JournalEntry? {
-        return journalEntries.get(myId)
+        return journalEntryService.findEntry(myId);
     }
 
     @DeleteMapping("id/{myId}")
-    public fun deleteJournalEntryById(@PathVariable myId: Long): JournalEntry? {
-        return journalEntries.remove(myId)
+    public fun deleteJournalEntryById(@PathVariable myId: Long): Boolean {
+        journalEntryService.removeEntry(myId)
+        return true
     }
 
     @PutMapping("id/{myId}")
@@ -48,6 +49,13 @@ class JournalEntryController {
         @PathVariable myId: Long,
         @RequestBody entry: JournalEntry
     ): JournalEntry? {
-        return journalEntries.put(myId, entry)
+
+        var oldEntry: JournalEntry? = journalEntryService.findEntry(myId)
+        if (oldEntry is JournalEntry) {
+            oldEntry.title = entry.title
+            oldEntry.content = entry.content
+            return journalEntryService.updateJournalEntryById(oldEntry)
+        }
+        return null
     }
 }

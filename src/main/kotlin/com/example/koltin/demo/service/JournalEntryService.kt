@@ -15,4 +15,20 @@ class JournalEntryService {
         journalEntryRepository.save(journalEntry)
     }
 
+    fun getAllEntries(): List<JournalEntry> {
+        return journalEntryRepository.findAll();
+    }
+
+    fun removeEntry(myId: Long) {
+        return journalEntryRepository.deleteById(myId.toInt())
+    }
+
+    fun findEntry(myId: Long): JournalEntry {
+        return journalEntryRepository.findById(myId.toInt()).get()
+    }
+
+    fun updateJournalEntryById(entry: JournalEntry): JournalEntry? {
+        return journalEntryRepository.save(entry)
+    }
+
 }
