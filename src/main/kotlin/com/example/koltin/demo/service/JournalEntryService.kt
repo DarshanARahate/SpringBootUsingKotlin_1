@@ -4,6 +4,7 @@ import com.example.koltin.demo.model.JournalEntry
 import com.example.koltin.demo.repository.JournalEntryRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class JournalEntryService {
@@ -23,8 +24,8 @@ class JournalEntryService {
         return journalEntryRepository.deleteById(myId.toInt())
     }
 
-    fun findEntry(myId: Long): JournalEntry {
-        return journalEntryRepository.findById(myId.toInt()).get()
+    fun findEntry(myId: Long): Optional<JournalEntry> {
+        return journalEntryRepository.findById(myId.toInt())
     }
 
     fun updateJournalEntryById(entry: JournalEntry): JournalEntry? {
